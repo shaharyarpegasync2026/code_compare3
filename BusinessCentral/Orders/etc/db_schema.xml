@@ -1,0 +1,26 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="sales_order">
+        <column xsi:type="varchar" name="dynamics365_code" nullable="true" length="255" comment="Dynamics 365 Order Code"/>
+    </table>
+    <table name="businesscentral_cancelled_orders" resource="default" engine="innodb" comment="Business Central Cancelled Orders">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" comment="Magento Order ID"/>
+        <column xsi:type="varchar" name="dynamics_order_number" length="50" nullable="true" comment="Dynamics Order Number"/>
+        <column xsi:type="timestamp" name="cancelled_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Cancelled At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="BUSINESSCENTRAL_CANCELLED_ORDERS_ORDER_ID">
+            <column name="order_id"/>
+        </constraint>
+    </table>
+</schema>
+
+
+

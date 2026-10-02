@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2026 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Acl/etc/acl.xsd">
+    <acl>
+        <resources>
+            <resource id="Magento_Backend::admin">
+                <resource id="Magento_Backend::stores">
+                    <resource id="Magento_Backend::stores_settings">
+                        <resource id="Magento_Config::config">
+                            <resource id="Amasty_GxoIntegration::config" title="GXO Integration Configuration" sortOrder="10"/>
+                        </resource>
+                    </resource>
+                </resource>
+                <resource id="Magento_Sales::sales">
+                    <resource id="Amasty_GxoIntegration::failed_sync" title="GXO Failed Sync" sortOrder="10"/>
+                    <resource id="Amasty_GxoIntegration::manual_sync" title="GXO Manual Sync" sortOrder="20"/>
+                </resource>
+                <resource id="Magento_Backend::system">
+                    <resource id="Magento_Backend::tools">
+                        <resource id="Amasty_GxoIntegration::webhook" title="GXO Webhook" sortOrder="10"/>
+                        <resource id="Amasty_GxoIntegration::inventory_webhook" title="GXO Inventory Webhook" sortOrder="20"/>
+                    </resource>
+                </resource>
+            </resource>
+        </resources>
+    </acl>
+</config>
+

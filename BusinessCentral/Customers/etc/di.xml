@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="BusinessCentral\Customers\Api\CustomerRepositoryInterface" 
+        type="BusinessCentral\Customers\Model\CustomerRepository"/>
+    <preference for="BusinessCentral\Customers\Api\Data\CustomerInterface" 
+        type="BusinessCentral\Customers\Model\Customer"/>
+        <type name="Magento\Customer\Model\ResourceModel\Grid\Collection">
+        <plugin name="businesscentral_customers_join_sync"
+                type="BusinessCentral\Customers\Plugin\Customer\Grid\CollectionPlugin"
+                sortOrder="10" />
+    </type>
+</config>

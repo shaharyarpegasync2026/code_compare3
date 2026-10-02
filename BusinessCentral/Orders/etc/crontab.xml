@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="businesscentral_orders_sync" instance="BusinessCentral\Orders\Cron\SyncOrders" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="businesscentral_sync_cancelled_orders" instance="BusinessCentral\Orders\Cron\SyncCancelledOrders" method="execute">
+            <schedule>*/15 * * * *</schedule>
+        </job>
+        <job name="businesscentral_orders_sync_credit_memos" instance="BusinessCentral\Orders\Cron\SyncCreditMemos" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+    </group>
+    <group id="index">
+        <job name="businesscentral_orders_sync_credit_memos_index" instance="BusinessCentral\Orders\Cron\SyncCreditMemos" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+    </group>
+</config>

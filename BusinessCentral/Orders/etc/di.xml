@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="BusinessCentral\Orders\Cron\SyncOrders">
+        <arguments>
+            <argument name="api" xsi:type="object">BusinessCentral\Api\Api\ApiInterface</argument>
+            <argument name="orderCollectionFactory" xsi:type="object">Magento\Sales\Model\ResourceModel\Order\CollectionFactory</argument>
+            <argument name="config" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface</argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
+        </arguments>
+    </type>
+    <type name="BusinessCentral\Orders\Model\TrackingSync">
+        <arguments>
+            <argument name="api" xsi:type="object">BusinessCentral\Api\Api\ApiInterface</argument>
+            <argument name="shipmentRepository" xsi:type="object">Magento\Sales\Api\ShipmentRepositoryInterface</argument>
+            <argument name="trackRepository" xsi:type="object">Magento\Sales\Api\ShipmentTrackRepositoryInterface</argument>
+            <argument name="trackFactory" xsi:type="object">Magento\Sales\Model\Order\Shipment\TrackFactory</argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
+        </arguments>
+    </type>
+    <type name="BusinessCentral\Orders\Model\Adapter">
+        <arguments>
+            <argument name="api" xsi:type="object">BusinessCentral\Api\Api\ApiInterface</argument>
+            <argument name="customerAdapter" xsi:type="object">BusinessCentral\Customers\Model\Adapter</argument>
+            <argument name="orderCollectionFactory" xsi:type="object">Magento\Sales\Model\ResourceModel\Order\CollectionFactory</argument>
+            <argument name="orderRepository" xsi:type="object">Magento\Sales\Api\OrderRepositoryInterface</argument>
+            <argument name="config" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface</argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
+            <argument name="objectManager" xsi:type="object">Magento\Framework\ObjectManagerInterface</argument>
+            <argument name="customerRepository" xsi:type="object">Magento\Customer\Api\CustomerRepositoryInterface</argument>
+            <argument name="cancelledOrderRepository" xsi:type="object">BusinessCentral\Orders\Api\CancelledOrderRepositoryInterface</argument>
+            <argument name="cancelledOrderFactory" xsi:type="object">BusinessCentral\Orders\Model\CancelledOrderFactory</argument>
+        </arguments>
+    </type>
+    <preference for="BusinessCentral\Orders\Api\CancelledOrderRepositoryInterface" type="BusinessCentral\Orders\Model\CancelledOrderRepository" />
+    <preference for="BusinessCentral\Orders\Api\Data\CancelledOrderInterface" type="BusinessCentral\Orders\Model\CancelledOrder" />
+    <type name="Magento\Sales\Model\ResourceModel\Order\Grid\Collection">
+        <plugin name="businesscentral_orders_join_dynamics_code"
+                type="BusinessCentral\Orders\Plugin\Sales\Order\Grid\CollectionPlugin"
+                sortOrder="10" />
+    </type>
+    
+</config>

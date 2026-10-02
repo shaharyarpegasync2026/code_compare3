@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/config.xsd">
+    <default>
+        <businesscentral_orders>
+            <sync>
+                <enabled>1</enabled>
+                <frequency>0 * * * *</frequency>
+                <start_date>1970-01-01</start_date>
+                <default_company>GB01</default_company>
+                <statuses>pending,processing</statuses>
+                <default_warehouse>GB900</default_warehouse>
+                <default_site_id>GB900</default_site_id>
+                <default_sales_unit>SET</default_sales_unit>
+                <data_area>GB01</data_area>
+            </sync>
+            <sync_credit_memos>
+                <enabled>1</enabled>
+                <data_area>GB01</data_area>
+            </sync_credit_memos>
+        </businesscentral_orders>
+    </default>
+</config>
+
+

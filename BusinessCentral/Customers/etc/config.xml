@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Store/etc/config.xsd">
+    <default>
+        <businesscentral_customers>
+            <sync>
+                <enabled>1</enabled>
+                <frequency>0 * * * *</frequency>
+                <default_company>GB01</default_company>
+                <customer_group>000003</customer_group>
+                <start_date>1970-01-01</start_date>
+            </sync>
+        </businesscentral_customers>
+    </default>
+</config>
+
+

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="businesscentral_products_sync" instance="BusinessCentral\Products\Model\ProductSync" method="execute">
+            <config_path>businesscentral_products/sync/frequency</config_path>
+        </job>
+        <job name="businesscentral_inventory_sync" instance="BusinessCentral\Products\Model\InventorySync" method="execute">
+            <config_path>businesscentral_products/inventory/frequency</config_path>
+        </job>
+        <job name="businesscentral_products_export" instance="BusinessCentral\Products\Model\Export\ProductsExporter" method="execute">
+            <config_path>businesscentral_products/export_products/frequency</config_path>
+        </job>
+        <job name="businesscentral_inventory_export" instance="BusinessCentral\Products\Model\Export\InventoryExporter" method="execute">
+            <config_path>businesscentral_products/export_inventory/frequency</config_path>
+        </job>
+    </group>
+</config>

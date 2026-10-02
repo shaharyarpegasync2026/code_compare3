@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Customer\Model\Customer\DataProvider">
+        <plugin name="businesscentral_admin_customer_dynamics_code" type="BusinessCentral\Customers\Plugin\AdminCustomerDynamicsCodePlugin" sortOrder="10"/>
+    </type>
+    <type name="Magento\Customer\Model\Customer\DataProviderWithDefaultAddresses">
+        <plugin name="businesscentral_admin_customer_dynamics_code_data" type="BusinessCentral\Customers\Plugin\AdminCustomerDynamicsCodePlugin" sortOrder="10"/>
+        <plugin name="businesscentral_admin_customer_dynamics_code_meta" type="BusinessCentral\Customers\Plugin\AdminCustomerDynamicsCodeMetaPlugin" sortOrder="20"/>
+    </type>
+</config>
+
+

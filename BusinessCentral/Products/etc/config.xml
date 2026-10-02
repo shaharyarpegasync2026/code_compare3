@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../Magento/Store/etc/config.xsd">
+	<default>
+        <businesscentral_products>
+			<export_products>
+				<enabled>1</enabled>
+				<frequency>0 * * * *</frequency>
+				<endpoint>ReleasedProductsV2</endpoint>
+				<barcode_attribute>d365_barcode</barcode_attribute>
+				<barcode_property></barcode_property>
+				<barcode_entity_set></barcode_entity_set>
+				<barcode_setup_id>DEF</barcode_setup_id>
+				<data_area>GB01</data_area>
+				<item_model_group>WA</item_model_group>
+				<storage_dim_group>SWL</storage_dim_group>
+				<tracking_dim_group>NONE</tracking_dim_group>
+				<product_group>Z001</product_group>
+				<inventory_uom>PC</inventory_uom>
+			</export_products>
+			<inventory>
+				<enabled>1</enabled>
+				<frequency>0 * * * *</frequency>
+				<start_date>0</start_date>
+			</inventory>
+			<export_inventory>
+				<enabled>1</enabled>
+				<frequency>0 * * * *</frequency>
+				<endpoint>InventOnHand</endpoint>
+				<data_area>GB01</data_area>
+				<journal_name>Counting</journal_name>
+				<post_after_sync>0</post_after_sync>
+            </export_inventory>
+        </businesscentral_products>
+		<orders>
+			<sync>
+				<default_warehouse>GB900</default_warehouse>
+			</sync>
+		</orders>
+	</default>
+</config>

@@ -1,0 +1,79 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="businesscentral_products" translate="label" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Products Synchronization</label>
+            <tab>businesscentral</tab>
+            <resource>BusinessCentral_Products::config</resource>
+            <group id="export_products" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Export Products</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="frequency" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frequency</label>
+                </field>
+                <field id="endpoint" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Endpoint (entity set)</label>
+                    <comment>For example: ReleasedProductCreationsV2</comment>
+                </field>
+                <field id="barcode_attribute" translate="label" type="text" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Magento barcode attribute</label>
+                    <comment>Код атрибута штрихкода (например: d365_barcode, barcode, ean)</comment>
+                </field>
+                <field id="barcode_property" translate="label" type="text" sortOrder="27" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Dynamics barcode property</label>
+                    <comment>Имя OData-поля штрихкода в ReleasedProductCreationsV2 (например: BarCode)</comment>
+                </field>
+                <field id="barcode_entity_set" translate="label" type="text" sortOrder="28" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Barcode entity set</label>
+                    <comment>EntitySet для штрихкодов (например: ProductNumberIdentifiedBarcodes, ProductBarcodesV3)</comment>
+                </field>
+                <field id="barcode_setup_id" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Barcode setup id</label>
+                    <comment>Идентификатор схемы штрихкода (например: EAN13). Можно оставить пустым</comment>
+                </field>
+                <field id="data_area" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Company (dataAreaId)</label>
+                </field>
+                <field id="item_model_group" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Item Model Group Id</label>
+                </field>
+                <field id="storage_dim_group" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Storage Dimension Group Name</label>
+                </field>
+                <field id="tracking_dim_group" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Tracking Dimension Group Name</label>
+                </field>
+                <field id="product_group" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Product Group Id</label>
+                </field>
+                <field id="inventory_uom" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Inventory Unit Symbol</label>
+                </field>
+            </group>
+            <group id="export_inventory" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Export Inventory</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="endpoint" translate="label" type="text" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Endpoint (entity set)</label>
+                    <comment>For example: InventOnHand, CustomInventoryEndpoint</comment>
+                </field>
+                <field id="frequency" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frequency</label>
+                </field>
+                <field id="data_area" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Company (dataAreaId)</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Amasty_GxoIntegration::failed_sync"
+             title="GXO Failed Sync"
+             module="Amasty_GxoIntegration"
+             sortOrder="900"
+             parent="Magento_Sales::sales"
+             action="amasty_gxo/failed/index"
+             resource="Amasty_GxoIntegration::failed_sync"/>
+    </menu>
+</config>
+

@@ -1,0 +1,87 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2026 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="amasty_gxo_queue" resource="default" engine="innodb" comment="Amasty GXO Queue">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="varchar" name="status" length="16" nullable="false" default="pending" comment="Status"/>
+        <column xsi:type="int" name="attempts" padding="10" unsigned="true" nullable="false" default="0" comment="Attempts"/>
+        <column xsi:type="timestamp" name="next_run_at" on_update="false" nullable="true" comment="Next Run At"/>
+        <column xsi:type="timestamp" name="locked_at" on_update="false" nullable="true" comment="Locked At"/>
+        <column xsi:type="text" name="last_error" nullable="true" comment="Last Error"/>
+        <column xsi:type="mediumtext" name="request_payload" nullable="true" comment="Request Payload"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="AMASTY_GXO_QUEUE_ORDER_ID">
+            <column name="order_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AMASTY_GXO_QUEUE_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="amasty_gxo_queue" column="order_id" referenceTable="sales_order" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <index referenceId="AMASTY_GXO_QUEUE_STATUS" indexType="btree">
+            <column name="status"/>
+        </index>
+        <index referenceId="AMASTY_GXO_QUEUE_NEXT_RUN_AT" indexType="btree">
+            <column name="next_run_at"/>
+        </index>
+        <index referenceId="AMASTY_GXO_QUEUE_LOCKED_AT" indexType="btree">
+            <column name="locked_at"/>
+        </index>
+    </table>
+
+    <table name="amasty_gxo_success_sync" resource="default" engine="innodb" comment="Amasty GXO Success Sync">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="varchar" name="gxo_reference" length="64" nullable="true" comment="GXO Reference"/>
+        <column xsi:type="mediumtext" name="request_payload" nullable="true" comment="Request Payload"/>
+        <column xsi:type="mediumtext" name="response_payload" nullable="true" comment="Response Payload"/>
+        <column xsi:type="timestamp" name="synced_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Synced At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="AMASTY_GXO_SUCCESS_SYNC_ORDER_ID">
+            <column name="order_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AMASTY_GXO_SUCCESS_SYNC_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="amasty_gxo_success_sync" column="order_id" referenceTable="sales_order" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <index referenceId="AMASTY_GXO_SUCCESS_SYNC_SYNCED_AT" indexType="btree">
+            <column name="synced_at"/>
+        </index>
+    </table>
+
+    <table name="amasty_gxo_failed_sync" resource="default" engine="innodb" comment="Amasty GXO Failed Sync">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="int" name="order_id" padding="10" unsigned="true" nullable="false" comment="Order ID"/>
+        <column xsi:type="int" name="attempts" padding="10" unsigned="true" nullable="false" default="0" comment="Attempts"/>
+        <column xsi:type="timestamp" name="next_retry_at" on_update="false" nullable="true" comment="Next Retry At"/>
+        <column xsi:type="text" name="last_error" nullable="true" comment="Last Error"/>
+        <column xsi:type="mediumtext" name="request_payload" nullable="true" comment="Request Payload"/>
+        <column xsi:type="mediumtext" name="response_payload" nullable="true" comment="Response Payload"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP" comment="Updated At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="AMASTY_GXO_FAILED_SYNC_ORDER_ID">
+            <column name="order_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="AMASTY_GXO_FAILED_SYNC_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="amasty_gxo_failed_sync" column="order_id" referenceTable="sales_order" referenceColumn="entity_id"
+                    onDelete="CASCADE"/>
+        <index referenceId="AMASTY_GXO_FAILED_SYNC_NEXT_RETRY_AT" indexType="btree">
+            <column name="next_retry_at"/>
+        </index>
+        <index referenceId="AMASTY_GXO_FAILED_SYNC_UPDATED_AT" indexType="btree">
+            <column name="updated_at"/>
+        </index>
+    </table>
+</schema>
+

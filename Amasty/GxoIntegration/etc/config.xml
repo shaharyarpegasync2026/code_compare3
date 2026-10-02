@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2026 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/config.xsd">
+    <default>
+        <amasty_gxo>
+            <general>
+                <enabled>0</enabled>
+                <trigger_statuses></trigger_statuses>
+            </general>
+            <api>
+                <base_url>https://api-uat-uk.gxo.com:43004</base_url>
+                <endpoint_path>/miniso/wms/v1/orders/orders/ecom</endpoint_path>
+            </api>
+            <retry>
+                <max_attempts>5</max_attempts>
+                <retry_delay_seconds>600</retry_delay_seconds>
+                <batch_size>50</batch_size>
+            </retry>
+        </amasty_gxo>
+    </default>
+</config>
+

@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2026 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<routes xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Webapi:etc/webapi.xsd">
+    <route url="/V1/amasty/gxo/shipment" method="POST">
+        <service class="Amasty\GxoIntegration\Api\ShipmentWebhookInterface" method="createShipment"/>
+        <resources>
+            <resource ref="Amasty_GxoIntegration::webhook"/>
+        </resources>
+    </route>
+    <route url="/V1/amasty/gxo/inventory/snapshot" method="POST">
+        <service class="Amasty\GxoIntegration\Api\InventoryWebhookInterface" method="syncInventory"/>
+        <resources>
+            <resource ref="Amasty_GxoIntegration::inventory_webhook"/>
+        </resources>
+    </route>
+</routes>
+

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2026 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Amasty\GxoIntegration\Api\QueueRepositoryInterface" type="Amasty\GxoIntegration\Model\QueueRepository"/>
+    <preference for="Amasty\GxoIntegration\Api\SuccessSyncRepositoryInterface" type="Amasty\GxoIntegration\Model\SuccessSyncRepository"/>
+    <preference for="Amasty\GxoIntegration\Api\FailedSyncRepositoryInterface" type="Amasty\GxoIntegration\Model\FailedSyncRepository"/>
+
+    <preference for="Amasty\GxoIntegration\Api\QueueManagementInterface" type="Amasty\GxoIntegration\Model\Queue\QueueManagement"/>
+    <preference for="Amasty\GxoIntegration\Api\SuccessSyncManagementInterface" type="Amasty\GxoIntegration\Model\SuccessSync\SuccessSyncManagement"/>
+    <preference for="Amasty\GxoIntegration\Api\FailedSyncManagementInterface" type="Amasty\GxoIntegration\Model\FailedSync\FailedSyncManagement"/>
+
+    <preference for="Amasty\GxoIntegration\Api\ShipmentWebhookInterface" type="Amasty\GxoIntegration\Model\Webhook\ShipmentWebhook"/>
+    <preference for="Amasty\GxoIntegration\Api\InventoryWebhookInterface" type="Amasty\GxoIntegration\Model\Webhook\InventoryWebhook"/>
+
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="amasty_gxo_order_status_enqueue" type="Amasty\GxoIntegration\Plugin\Sales\Api\OrderRepositoryInterfacePlugin" sortOrder="10"/>
+    </type>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="amasty_gxo_failed_sync_listing_data_source" xsi:type="string">Amasty\GxoIntegration\Model\ResourceModel\FailedSync\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\GxoIntegration\Logger\Handler\Sync">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\GxoIntegration\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">amasty_gxo</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="sync" xsi:type="object">Amasty\GxoIntegration\Logger\Handler\Sync</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\GxoIntegration\Logger\Handler\Inventory">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+
+    <type name="Amasty\GxoIntegration\Logger\InventoryLogger">
+        <arguments>
+            <argument name="name" xsi:type="string">amasty_gxo_inventory</argument>
+            <argument name="handlers" xsi:type="array">
+                <item name="inventory" xsi:type="object">Amasty\GxoIntegration\Logger\Handler\Inventory</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
+

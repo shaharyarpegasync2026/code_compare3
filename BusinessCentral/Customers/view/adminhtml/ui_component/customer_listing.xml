@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="customer_columns">
+        <column name="bc_dynamics_sync" class="BusinessCentral\Customers\Ui\Component\Listing\Column\DynamicsSync">
+            <settings>
+                <label translate="true">Dynamics Sync</label>
+                <filter>false</filter>
+                <sortable>true</sortable>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <visible>true</visible>
+            </settings>
+        </column>
+    </columns>
+</listing>
+
+

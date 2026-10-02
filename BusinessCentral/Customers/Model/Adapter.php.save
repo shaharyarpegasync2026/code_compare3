@@ -1,0 +1,307 @@
+
+
+
+
+
+
+
+<?php
+
+/**
+ * Copyright © 2009-2025 Amasty. All Rights Reserved.
+ * See LICENSE for license details.
+ */
+
+declare(strict_types=1);
+
+namespace BusinessCentral\Customers\Model;
+
+use BusinessCentral\Api\Api\ApiInterface;
+use BusinessCentral\Customers\Api\CustomerRepositoryInterface as BusinessCentralCustomerRepositoryInterface;
+use BusinessCentral\Customers\Api\Data\CustomerInterfaceFactory;
+use Magento\Customer\Model\ResourceModel\Customer\CollectionFactory;
+use Magento\Customer\Api\CustomerRepositoryInterface;
+use Magento\Framework\App\Config\ScopeConfigInterface;
+use Psr\Log\LoggerInterface;
+use Magento\Framework\Exception\LocalizedException;
+
+/**
+ * Class Adapter
+ *
+ * @package BusinessCentral\Customers\Model
+ */
+class Adapter
+{
+    /**
+     * @var ApiInterface
+     */
+    private $api;
+
+    /**
+     * @var CollectionFactory
+     */
+    private $customerCollectionFactory;
+
+    /**
+     * @var CustomerRepositoryInterface
+     */
+    private $customerRepository;
+
+    /**
+     * @var ScopeConfigInterface
+     */
+    private $config;
+
+    /**
+     * @var LoggerInterface
+     */
+    private $logger;
+
+    /**
+     * @var BusinessCentralCustomerRepositoryInterface
+     */
+    private $businessCentralCustomerRepository;
+
+    /**
+     * @var CustomerInterfaceFactory
+     */
+    private $customerInterfaceFactory;
+
+    public function __construct(
+        ApiInterface $api,
+        CollectionFactory $customerCollectionFactory,
+        CustomerRepositoryInterface $customerRepository,
+        ScopeConfigInterface $config,
+        LoggerInterface $logger,
+        BusinessCentralCustomerRepositoryInterface $businessCentralCustomerRepository,
+        CustomerInterfaceFactory $customerInterfaceFactory
+    ) {
+        $this->api = $api;
+        $this->customerCollectionFactory = $customerCollectionFactory;
+        $this->customerRepository = $customerRepository;
+        $this->config = $config;
+        $this->logger = $logger;
+        $this->businessCentralCustomerRepository = $businessCentralCustomerRepository;
+        $this->customerInterfaceFactory = $customerInterfaceFactory;
+    }
+
+    /**
+     * Sync customers to Dynamics
+     *
+     * @return void
+     */
+    public function syncCustomers()
+    {
+        $startDate = (string)($this->config->getValue('customers/sync/start_date') ?? '1970-01-01');
+        $company = (string)($this->config->getValue('customers/sync/default_company') ?? 'GB01');
+        $defaultGroup = (string)($this->config->getValue('customers/sync/customer_group') ?? '000003');
+
+        $collection = $this->customerCollectionFactory->create()
+            ->addFieldToFilter('created_at', ['gteq' => $startDate]);
+
+        foreach ($collection as $customer) {
+            try {
+                $email = $customer->getEmail();
+
+                try {
+                    $existingBusinessCentralCustomer = $this->businessCentralCustomerRepository->getByEmail($email);
+                    continue;
+                } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+                }
+
+                $existingCustomer = $this->findCustomerByEmail($email);
+                if ($existingCustomer) {
+                    if (isset($existingCustomer['CustomerAccount'])) {
+                        $businessCentralCustomer = $this->customerInterfaceFactory->create();
+                        $businessCentralCustomer->setEmail($email);
+                        $businessCentralCustomer->setDynamics365Code($existingCustomer['CustomerAccount']);
+                        $this->businessCentralCustomerRepository->save($businessCentralCustomer);
+                    }
+                    continue;
+                }
+
+                $data = $this->prepareCustomerData($customer, $company, $defaultGroup);
+
+                try {
+                    $response = $this->api->sendRequest('POST', '/CustomersV3', $data);
+                    
+                    if (isset($response['CustomerAccount'])) {
+                        $businessCentralCustomer = $this->customerInterfaceFactory->create();
+                        $businessCentralCustomer->setEmail($email);
+                        $businessCentralCustomer->setDynamics365Code($response['CustomerAccount']);
+                        $this->businessCentralCustomerRepository->save($businessCentralCustomer);
+                    } else {
+                        $this->logger->error('Customer creation failed - no CustomerAccount in response', [
+                            'customer_id' => $customer->getId(),
+                            'email' => $email,
+                            'response' => $response
+                        ]);
+                    }
+                } catch (LocalizedException $e) {
+                    if (strpos($e->getMessage(), 'already exists') !== false) {
+                        $existingCustomer = $this->findCustomerByEmail($email);
+                        if ($existingCustomer && isset($existingCustomer['CustomerAccount'])) {
+                            $businessCentralCustomer = $this->customerInterfaceFactory->create();
+                            $businessCentralCustomer->setEmail($email);
+                            $businessCentralCustomer->setDynamics365Code($existingCustomer['CustomerAccount']);
+                            $this->businessCentralCustomerRepository->save($businessCentralCustomer);
+                        } else {
+                            $this->logger->error('Failed to find existing customer after creation error', [
+                                'customer_id' => $customer->getId(),
+                                'email' => $email
+                            ]);
+                        }
+                    } else {
+                        $this->logger->error('Customer creation failed with unexpected error', [
+                            'customer_id' => $customer->getId(),
+                            'email' => $email,
+                            'error' => $e->getMessage()
+                        ]);
+                        throw $e;
+                    }
+                }
+            } catch (LocalizedException $e) {
+                $this->logger->error('Customer sync exception', [
+                    'customer_id' => $customer->getId(),
+                    'email' => $customer->getEmail(),
+                    'exception' => $e->getMessage()
+                ]);
+            }
+        }
+    }
+
+    /**
+     * Prepare customer data for API request
+     *
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param string $company
+     * @param string $defaultGroup
+     * @return array
+     */
+    private function prepareCustomerData($customer, string $company, string $defaultGroup): array
+    {
+        return [
+            'dataAreaId' => $company,
+            'PrimaryContactEmail' => $customer->getEmail(),
+            'OrganizationName' => 'Magento Customer',
+            'CustomerGroupId' => $defaultGroup,
+            'SalesCurrencyCode' => 'GBP'
+        ];
+    }
+
+    /**
+     * Find customer by email in Dynamics 365
+     *
+     * @param string $email
+     * @return array|null
+     */
+    private function findCustomerByEmail(string $email): ?array
+    {
+        try {
+            $response = $this->api->sendRequest('GET', '/CustomersV3', [
+                '$filter' => "PrimaryContactEmail eq '{$email}'"
+            ]);
+            
+            if (isset($response['value']) && is_array($response['value']) && count($response['value']) > 0) {
+                $customer = $response['value'][0];
+
+                if (isset($customer['PrimaryContactEmail']) && $customer['PrimaryContactEmail'] == $email) {
+                    return $customer;
+                }
+            }
+        } catch (LocalizedException $e) {
+            $this->logger->error('Failed to search for customer by email', [
+                'email' => $email, 
+                'error' => $e->getMessage()
+            ]);
+        }
+        
+        return null;
+    }
+
+    /**
+     * Sync single customer to Dynamics
+     *
+     * @param string $email
+     * @return bool
+     */
+    public function syncSingleCustomer(string $email): bool
+    {
+        try {
+            $company = (string)($this->config->getValue('customers/sync/default_company') ?? 'GB01');
+            $defaultGroup = (string)($this->config->getValue('customers/sync/customer_group') ?? '000003');
+
+            try {
+                $existingBusinessCentralCustomer = $this->businessCentralCustomerRepository->getByEmail($email);
+                return true;
+            } catch (\Magento\Framework\Exception\NoSuchEntityException $e) {
+            }
+
+            $existingCustomer = $this->findCustomerByEmail($email);
+            if ($existingCustomer) {
+                if (isset($existingCustomer['CustomerAccount'])) {
+                    $businessCentralCustomer = $this->customerInterfaceFactory->create();
+                    $businessCentralCustomer->setEmail($email);
+                    $businessCentralCustomer->setDynamics365Code($existingCustomer['CustomerAccount']);
+                    $this->businessCentralCustomerRepository->save($businessCentralCustomer);
+                    return true;
+                }
+                return false;
+            }
+
+            $data = [
+                'dataAreaId' => $company,
+                'PrimaryContactEmail' => $email,
+                'OrganizationName' => 'Magento Customer',
+                'CustomerGroupId' => $defaultGroup,
+                'SalesCurrencyCode' => 'GBP'
+            ];
+
+            try {
+                $response = $this->api->sendRequest('POST', '/CustomersV3', $data);
+                
+                if (isset($response['CustomerAccount'])) {
+                    $businessCentralCustomer = $this->customerInterfaceFactory->create();
+                    $businessCentralCustomer->setEmail($email);
+                    $businessCentralCustomer->setDynamics365Code($response['CustomerAccount']);
+                    $this->businessCentralCustomerRepository->save($businessCentralCustomer);
+                    return true;
+                } else {
+                    $this->logger->error('Customer creation failed - no CustomerAccount in response', [
+                        'email' => $email,
+                        'response' => $response
+                    ]);
+                    return false;
+                }
+            } catch (LocalizedException $e) {
+                if (strpos($e->getMessage(), 'already exists') !== false) {
+                    $existingCustomer = $this->findCustomerByEmail($email);
+                    if ($existingCustomer && isset($existingCustomer['CustomerAccount'])) {
+                        $businessCentralCustomer = $this->customerInterfaceFactory->create();
+                        $businessCentralCustomer->setEmail($email);
+                        $businessCentralCustomer->setDynamics365Code($existingCustomer['CustomerAccount']);
+                        $this->businessCentralCustomerRepository->save($businessCentralCustomer);
+                        return true;
+                    } else {
+                        $this->logger->error('Failed to find existing customer after creation error', [
+                            'email' => $email
+                        ]);
+                        return false;
+                    }
+                } else {
+                    $this->logger->error('Customer creation failed with unexpected error', [
+                        'email' => $email,
+                        'error' => $e->getMessage()
+                    ]);
+                    return false;
+                }
+            }
+        } catch (\Exception $e) {
+            $this->logger->error('Single customer sync failed', [
+                'email' => $email,
+                'error' => $e->getMessage()
+            ]);
+            return false;
+        }
+    }
+}

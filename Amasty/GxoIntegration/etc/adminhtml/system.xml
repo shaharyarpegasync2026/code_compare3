@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2026 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="amasty_gxo" translate="label" sortOrder="900" showInDefault="1" showInWebsite="0" showInStore="0">
+            <label>GXO Integration</label>
+            <tab>sales</tab>
+            <resource>Amasty_GxoIntegration::config</resource>
+            <group id="general" translate="label" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="trigger_statuses" translate="label" type="multiselect" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Order Statuses To Sync</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                    <can_be_empty>1</can_be_empty>
+                </field>
+            </group>
+            <group id="api" translate="label" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>API</label>
+                <field id="base_url" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Base URL</label>
+                    <backend_model>Amasty\GxoIntegration\Model\Config\Backend\BaseUrl</backend_model>
+                </field>
+                <field id="username" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Username</label>
+                    <backend_model>Amasty\GxoIntegration\Model\Config\Backend\Username</backend_model>
+                </field>
+                <field id="password" translate="label" type="obscure" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Password</label>
+                    <backend_model>Magento\Config\Model\Config\Backend\Encrypted</backend_model>
+                </field>
+                <field id="endpoint_path" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Orders Endpoint Path</label>
+                    <comment>Example: /miniso/wms/v1/orders/orders/ecom</comment>
+                </field>
+            </group>
+            <group id="retry" translate="label" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                <label>Retry</label>
+                <field id="max_attempts" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Max Attempts</label>
+                </field>
+                <field id="retry_delay_seconds" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Retry Delay Seconds</label>
+                </field>
+                <field id="batch_size" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="0" showInStore="0">
+                    <label>Queue Batch Size</label>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
+

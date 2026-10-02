@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="product_columns">
+        <column name="is_in_dynamics" class="BusinessCentral\Products\Ui\Component\Listing\Column\IsInDynamics">
+            <settings>
+                <label translate="true">Dynamics Sync</label>
+                <dataType>select</dataType>
+                <sortable>true</sortable>
+                <filter>select</filter>
+                <options class="Magento\Config\Model\Config\Source\Yesno"/>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <addField>true</addField>
+            </settings>
+        </column>
+    </columns>
+    <listingToolbar name="listing_top">
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filters name="product_listing_filters"/>
+        <massaction name="listing_massaction"/>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+</listing>
+
+

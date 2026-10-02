@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="businesscentral_customers_sync" instance="BusinessCentral\Customers\Model\Adapter" method="syncCustomers">
+            <config_path>businesscentral_customers/sync/frequency</config_path>
+        </job>
+    </group>
+</config>
+
+
+
+

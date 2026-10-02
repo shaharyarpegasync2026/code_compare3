@@ -1,0 +1,68 @@
+<?php
+
+/** @var $block \Amasty\GxoIntegration\Block\Adminhtml\Order\View\GxoInfo */
+
+$state = $block->getGxoState();
+$status = (string)($state['status'] ?? 'unknown');
+$reference = (string)($state['reference'] ?? '');
+$syncedAt = (string)($state['synced_at'] ?? '');
+$attempts = (string)($state['attempts'] ?? '');
+$nextRetryAt = (string)($state['next_retry_at'] ?? '');
+$lastError = (string)($state['last_error'] ?? '');
+
+?>
+
+<section class="admin__page-section">
+    <div class="admin__page-section-title">
+        <span class="title"><?= $block->escapeHtml(__('GXO Synchronization')) ?></span>
+    </div>
+    <div class="admin__page-section-content">
+        <div class="admin__page-section-item">
+            <div class="admin__page-section-item-content">
+                <table class="admin__table-secondary">
+                    <tbody>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Status')) ?></th>
+                        <td><?= $block->escapeHtml($status) ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Reference')) ?></th>
+                        <td><?= $block->escapeHtml($reference !== '' ? $reference : '-') ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Synced At')) ?></th>
+                        <td><?= $block->escapeHtml($syncedAt !== '' ? $syncedAt : '-') ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Attempts')) ?></th>
+                        <td><?= $block->escapeHtml($attempts !== '' ? $attempts : '-') ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Next Retry At')) ?></th>
+                        <td><?= $block->escapeHtml($nextRetryAt !== '' ? $nextRetryAt : '-') ?></td>
+                    </tr>
+                    <tr>
+                        <th><?= $block->escapeHtml(__('Last Error')) ?></th>
+                        <td><?= $block->escapeHtml($lastError !== '' ? $lastError : '-') ?></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <div class="admin__actions-switch">
+                    <?php if ($block->isEnabled()): ?>
+                        <button type="button"
+                                class="action-default scalable"
+                                onclick="setLocation('<?= $block->escapeUrl($block->getSyncUrl()) ?>')">
+                            <span><?= $block->escapeHtml(__('Sync to GXO')) ?></span>
+                        </button>
+                    <?php else: ?>
+                        <div class="message message-warning">
+                            <?= $block->escapeHtml(__('GXO Integration is disabled.')) ?>
+                        </div>
+                    <?php endif; ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

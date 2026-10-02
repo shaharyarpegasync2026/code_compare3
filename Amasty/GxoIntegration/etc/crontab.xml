@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2026 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Cron:etc/crontab.xsd">
+    <group id="default">
+        <job name="amasty_gxo_process_queue" instance="Amasty\GxoIntegration\Cron\ProcessQueue" method="execute">
+            <schedule>* * * * *</schedule>
+        </job>
+        <job name="amasty_gxo_retry_failed" instance="Amasty\GxoIntegration\Cron\RetryFailed" method="execute">
+            <schedule>*/10 * * * *</schedule>
+        </job>
+    </group>
+</config>
+

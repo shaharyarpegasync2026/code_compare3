@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="BusinessCentral\Api\Model\ApiClient">
+        <arguments>
+            <argument name="client" xsi:type="object">Magento\Framework\HTTP\Client\Curl</argument>
+            <argument name="logger" xsi:type="object">Psr\Log\LoggerInterface</argument>
+            <argument name="config" xsi:type="object">Magento\Framework\App\Config\ScopeConfigInterface</argument>
+            <argument name="tokenProvider" xsi:type="object">BusinessCentral\Api\Model\TokenProvider</argument>
+        </arguments>
+    </type>
+    <preference for="Psr\Log\LoggerInterface" type="BusinessCentral\Api\Model\Logger"/>
+    <preference for="BusinessCentral\Api\Api\ApiInterface" type="BusinessCentral\Api\Model\ApiClient"/>
+</config>

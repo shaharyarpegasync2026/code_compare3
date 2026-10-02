@@ -1,0 +1,18 @@
+<?php
+/**
+ * Copyright © 2009-2025 Amasty. All Rights Reserved.
+ * See LICENSE for license details.
+ *
+ * @var \BusinessCentral\Orders\Block\Adminhtml\View\DynamicsOrderNumber $block
+ * @var \Magento\Framework\Escaper $escaper
+ */
+
+$dynamicsOrderNumber = $block->getDynamicsOrderNumber();
+?>
+
+<?php if ($dynamicsOrderNumber): ?>
+    <tr>
+        <th><?= $escaper->escapeHtml(__('Dynamics 365 Order No')) ?></th>
+        <td><?= $escaper->escapeHtml($dynamicsOrderNumber) ?></td>
+    </tr>
+<?php endif ?>

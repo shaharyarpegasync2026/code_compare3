@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="businesscentral_customers" resource="default" engine="innodb" comment="Business Central Customers">
+        <column xsi:type="int" name="entity_id" padding="10" unsigned="true" nullable="false" identity="true" comment="Entity ID"/>
+        <column xsi:type="varchar" name="email" length="255" nullable="false" comment="Customer Email"/>
+        <column xsi:type="varchar" name="dynamics365_code" length="50" nullable="true" comment="Dynamics 365 Customer Code"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="BUSINESSCENTRAL_CUSTOMERS_EMAIL">
+            <column name="email"/>
+        </constraint>
+        <constraint xsi:type="unique" referenceId="BUSINESSCENTRAL_CUSTOMERS_DYNAMICS365_CODE">
+            <column name="dynamics365_code"/>
+        </constraint>
+    </table>
+</schema>

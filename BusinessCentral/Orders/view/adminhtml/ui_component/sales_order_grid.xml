@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <columns name="sales_order_columns">
+        <column name="dynamics365_code" class="BusinessCentral\Orders\Ui\Component\Listing\Column\DynamicsCode">
+            <settings>
+                <label translate="true">Dynamics Sync</label>
+                <!-- <filter>select</filter> -->
+                <sortable>true</sortable>
+                <options>
+                    <option name="yes" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">Yes</item>
+                        <item name="value" xsi:type="number">1</item>
+                    </option>
+                    <option name="no" xsi:type="array">
+                        <item name="label" xsi:type="string" translate="true">No</item>
+                        <item name="value" xsi:type="number">0</item>
+                    </option>
+                </options>
+                <bodyTmpl>ui/grid/cells/html</bodyTmpl>
+                <visible>true</visible>
+            </settings>
+        </column>
+    </columns>
+</listing>
+
+

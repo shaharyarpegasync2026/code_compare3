@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="businesscentral_orders" translate="label" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Orders Synchronization</label>
+            <tab>businesscentral</tab>
+            <resource>BusinessCentral_Orders::config</resource>
+            <group id="sync" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Sync Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="frequency" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frequency</label>
+                </field>
+                <field id="start_date" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Start Date for Sync</label>
+                </field>
+                <field id="default_company" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Company</label>
+                    <comment>Default company code for Dynamics 365 (e.g., GB01)</comment>
+                </field>
+                <field id="statuses" translate="label" type="multiselect" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Order Statuses to Sync</label>
+                    <source_model>Magento\Sales\Model\Config\Source\Order\Status</source_model>
+                </field>
+                <field id="default_warehouse" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Warehouse for Order Lines</label>
+                    <comment>Default warehouse code for Dynamics 365 (e.g., GB900)</comment>
+                </field>
+                <field id="default_site_id" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Site ID for Order Lines</label>
+                    <comment>Default site code for inventory (e.g., GB)</comment>
+                </field>
+                <field id="default_sales_unit" translate="label" type="text" sortOrder="80" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Sales Unit Symbol</label>
+                    <comment>Default unit of measure (e.g., PC)</comment>
+                </field>
+            </group>
+            <!-- <group id="sync_credit_memos" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Credit Memos Sync</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="data_area" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Company (dataAreaId)</label>
+                    <comment>e.g., GB01</comment>
+                </field>
+            </group> -->
+        </section>
+    </system>
+</config>

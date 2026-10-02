@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+Copyright © 2009-2025 Amasty. All Rights Reserved.
+See LICENSE for license details.
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="businesscentral_customers" translate="label" sortOrder="15" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Customers Synchronization</label>
+            <tab>businesscentral</tab>
+            <resource>BusinessCentral_Customers::config</resource>
+            <group id="sync" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Sync Settings</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <config_path>businesscentral_customers/sync/enabled</config_path>
+                </field>
+                <field id="frequency" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Frequency</label>
+                    <config_path>businesscentral_customers/sync/frequency</config_path>
+                </field>
+                <field id="default_company" translate="label" type="text" sortOrder="25" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Company (dataAreaId)</label>
+                    <comment>e.g. GB01</comment>
+                    <config_path>businesscentral_customers/sync/default_company</config_path>
+                </field>
+                <field id="customer_group" translate="label" type="text" sortOrder="26" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Default Customer Group Id</label>
+                    <comment>e.g. 000003</comment>
+                    <config_path>businesscentral_customers/sync/customer_group</config_path>
+                </field>
+                <field id="start_date" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Start Date for Sync</label>
+                    <config_path>businesscentral_customers/sync/start_date</config_path>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>
